@@ -6,7 +6,7 @@ import numpy as np
 
 def load_dataset(year, shuffle=False):
     """Loads chosen data set, mixes it and returns."""
-    file_path = "C:/Users/noahm/Desktop/risk assesment/data/" + "{}year.csv".format(year)
+    file_path = "data/" + "{}year.csv".format(year)
     df = pd.read_csv(file_path, na_values='?')
     Y = df['class'].values
     X = df.drop('class', axis=1).values
