@@ -1,4 +1,4 @@
-# Solvency Assesment
+# Risk Assesment
 
 This program is used to asses risk of solvency from financial data. The program is based off of a neural network and can make accurate predictions about the future of a company.
 
