@@ -42,7 +42,7 @@ class Imputer(PreProcessor):
     def fit(self, abstracts):
         """Fits the abstracts to the imputer model"""
 
-        self.imputer = sklearn.preprocessing.Imputer(missing_values = 0, strategy = self.strategy, axis=0)
+        self.imputer = sklearn.preprocessing.Imputer(missing_values = 0, strategy = self.strategy, axis=1)
         self.imputer.fit(abstracts, y=None)
 
     def transform(self, abstracts):
@@ -51,6 +51,8 @@ class Imputer(PreProcessor):
         abstracts[np.isnan(abstracts)]=0
 
         abstracts = self.imputer.transform(abstracts)
+
+        return abstracts
 
 class Normalizer(PreProcessor):
     def __init__(self, strategy, norm_axis = 1):

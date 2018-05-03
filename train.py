@@ -6,7 +6,7 @@ import numpy as np
 
 def load_dataset(year, shuffle=False):
     """Loads chosen data set, mixes it and returns."""
-    file_path = "C:/Users/noahm/Desktop/risk-assesment/data/" + "{}year.csv".format(year)
+    file_path = "C:/Users/noahm/Desktop/risk assesment/data/" + "{}year.csv".format(year)
     df = pd.read_csv(file_path, na_values='?')
     Y = df['class'].values
     X = df.drop('class', axis=1).values
@@ -21,6 +21,7 @@ X, Y = load_dataset(year=1, shuffle=True)
 imputer = Imputer(strategy='mean')
 normalizer = Normalizer(strategy="l2", norm_axis=1)
 
-imputer.fit_transform(abstracts=X)
-normalizer.transform(abstracts=X)
+X = imputer.fit_transform(abstracts=X)
+X = normalizer.transform(abstracts=X)
 
+print(X.shape)

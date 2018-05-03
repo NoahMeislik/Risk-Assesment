@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np 
-from .base-model import Model
+from base-model import Model
 
 class NeuralNet(Model):
     """
@@ -44,7 +44,7 @@ class NeuralNet(Model):
             self.weights["W_" + name] = tf.Variable(self.initializer(w_shape), name = "W_{}".format(name))
             self.biases["b_" + name] = tf.Variable(tf.zeros(b_shape), name = "b_{}".format(name))
 
-
+        
             
 
 
