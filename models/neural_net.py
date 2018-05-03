@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np 
-from base-model import Model
+from base_model import Model
 
 class NeuralNet(Model):
     """
@@ -27,6 +27,12 @@ class NeuralNet(Model):
     def initialize_params(self, abstracts, labels):
         """
         Initializes all weights and biases
+        Args:
+            Abstracts: dict of training data including the X and Y
+            Labels: Number of data classifications
+        Output:
+            Weights: Dictionary of all weights
+            Biases: Dictionary of all biases
         """
 
         self.weights = dict()
@@ -37,13 +43,27 @@ class NeuralNet(Model):
         for i in range(len(self.layers)):
             num_input = self.layers[i]
             num_output = len(labels) if i == len(self.layers - 1) else self.layers[i + 1] 
-            name = "input" if i == 0 or "output" if i == len(self.layers) else str(i + 1)
+            name = "input" if i == 0 else "output" if i == len(self.layers) else str(i + 1)
             w_shape = [num_input, num_output]
             b_shape = [num_output]
 
             self.weights["W_" + name] = tf.Variable(self.initializer(w_shape), name = "W_{}".format(name))
             self.biases["b_" + name] = tf.Variable(tf.zeros(b_shape), name = "b_{}".format(name))
 
+        self.X_input = tf.placeholder(tf.float32, shape=(None, self.layers[0]))
+        self.Y_input = tf.placeholder(tf.int32, shape=(None))
+    
+    def train(self, abstracts, labels):
+        """
+        """
+        X = abstracts["X"]
+        Y = abstracts["Y"]
+
+        # do the batch stuff here
+            
+
+
+    
         
             
 
