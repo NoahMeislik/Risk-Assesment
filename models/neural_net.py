@@ -7,7 +7,7 @@ class NeuralNet(Model):
     Neural Network class for training networks with predefined settings
     """
 
-    def __init__(self, layers, dropout_prob, alpha, lmbda, optimizer_type,
+    def __init__(self, layers, dropout_prob, alpha, lmbda, optimizer_type, save_path,
                 num_epochs, batch_size, init_type, iter_per_cost, plot):
         """
         Initiates all config variables and sets them.
@@ -19,6 +19,7 @@ class NeuralNet(Model):
         self.alpha = alpha
         self.lmbda = lmbda
         self.optimizer_type = optimizer_type
+        self.save_path = save_path
         self.num_epochs = num_epochs
         self.batch_size = batch_size
         self.init_type = init_type
@@ -36,8 +37,8 @@ class NeuralNet(Model):
             Biases: Dictionary of all biases
             A tf graph
         """
-        X = abstracts["X"]
-        Y = abstracts["Y"]
+        self.X = abstracts["X"]
+        self.Y = abstracts["Y"]
 
         self.X_input = tf.placeholder(tf.float32, shape=(None, self.layers[0]))
         self.Y_input = tf.placeholder(tf.int32, shape=(None, len(labels)))
@@ -72,12 +73,12 @@ class NeuralNet(Model):
             # To-Do add more optimizers lol
 
         self.train_op = self.optimizer.minimize(loss_op)
+
+        self.saver = tf.train.Saver()
     
-    def train(self, abstracts, labels):
+    def train(self):
         """
         """
-        X = abstracts["X"]
-        Y = abstracts["Y"]
 
         # do the batch stuff here or add to a new utils file or add to data processor class
             

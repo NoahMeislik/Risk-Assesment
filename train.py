@@ -2,7 +2,13 @@ from processors.preprocessor import Imputer, Normalizer
 import os
 import pandas as pd
 import numpy as np
+import configparser
+from pathlib import Path
 
+Config = configparser.ConfigParser()
+Config.read("config.ini")
+
+print(Config["Imputer"]["strategy"])
 
 def load_dataset(year, shuffle=False):
     """Loads chosen data set, mixes it and returns."""
