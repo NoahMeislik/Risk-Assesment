@@ -16,7 +16,7 @@ X, Y = load_dataset(year=1, shuffle=True)
 
 imputer = Imputer(strategy='mean')
 normalizer = Normalizer(strategy="l2", norm_axis=1)
-processor = Processor(X, Y, 10, 10, "regularize", 64, True)
+processor = Processor(X, Y, 15, 10, "regularize", 64, True)
 
 X = imputer.fit_transform(abstracts=X)
 X = normalizer.transform(abstracts=X)

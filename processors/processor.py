@@ -26,7 +26,7 @@ class Processor():
 
         self._epochs_completed = 0
         self._index_in_epoch = 0
-        self._num_examples = len(Y)
+        self._num_examples = len(self.Y)
 
     def split_data(self):
         """
