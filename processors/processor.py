@@ -46,16 +46,16 @@ class Processor():
         """
 
 
-        dev_samples = math.floor((self.dev_percent / 100) * len(Y))
-        test_samples = math.floor((self.test_percent / 100) * len(Y))
-        train_samples = len(Y) - (dev_samples + test_samples)
+        dev_samples = math.floor((self.dev_percent / 100) * len(self.Y))
+        test_samples = math.floor((self.test_percent / 100) * len(self.Y))
+        train_samples = len(self.Y) - (dev_samples + test_samples)
 
-        train_set_x = X[:train_samples, :]
-        train_set_y = Y[:train_samples]
-        dev_set_x = X[train_samples:dev_samples + train_samples, :]
-        dev_set_y = Y[train_samples:dev_samples + train_samples]
-        test_set_x = X[dev_samples + train_samples:, :]
-        test_set_y = Y[dev_samples + train_samples:]
+        train_set_x = self.X[:train_samples, :]
+        train_set_y = self.Y[:train_samples]
+        dev_set_x = self.X[train_samples:dev_samples + train_samples, :]
+        dev_set_y = self.Y[train_samples:dev_samples + train_samples]
+        test_set_x = self.X[dev_samples + train_samples:, :]
+        test_set_y = self.Y[dev_samples + train_samples:]
 
         return train_set_x, train_set_y, dev_set_x, dev_set_y, test_set_x, test_set_y
 
@@ -71,7 +71,7 @@ class Processor():
             next_batch: the next batch from the dataset
 
         """
-        # To-Do implement stochastic gd
+        # To-Do implement batch gd
         start = self._index_in_epoch
         self._index_in_epoch += self.batch_size
 

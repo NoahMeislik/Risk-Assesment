@@ -1,6 +1,6 @@
 import numpy as np 
 import configparser
-import pandas as np
+import pandas as pd
 import os
 
 def load_dataset(year, shuffle=False):

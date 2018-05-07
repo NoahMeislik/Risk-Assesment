@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\noahm\\AppData\\Local\\conda\\conda\\envs\\DataScience\\python.exe",
-    "git.autofetch": false
-
+    "python.pythonPath": "C:\\Users\\Noah Meislik\\AppData\\Local\\conda\\conda\\envs\\DeepLearning\\python.exe",
+    "git.autofetch": false,
+    "python.linting.pylintEnabled": false
 }
