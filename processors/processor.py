@@ -13,14 +13,22 @@ class Processor():
     Output:
         Depending on batch type it will output split data in batches
     """
-    def __init__(self, dev_percent, test_percent, batch_type, batch_size):
+    def __init__(self, X, Y, dev_percent, test_percent, batch_type, batch_size, shuffle):
         
+        self.X = X
+        self.Y = Y
+
         self.dev_percent = dev_percent
         self.test_percent = test_percent
         self.batch_type = batch_type
         self.batch_size = batch_size
+        self.shuffle = shuffle
 
-    def split_data(self, X, Y):
+        self._epochs_completed = 0
+        self._index_in_epoch = 0
+        self._num_examples = len(Y)
+
+    def split_data(self):
         """
         Splits data into three parts: train, dev, test
 
@@ -51,4 +59,40 @@ class Processor():
 
         return train_set_x, train_set_y, dev_set_x, dev_set_y, test_set_x, test_set_y
 
+    
+    def next_batch(self):
+        """
+        Returns the next batch in the dataset based off the number of epochs and batch size
+
+        Reuqired Args:
+            none
+
+        Output:
+            next_batch: the next batch from the dataset
+
+        """
+        # To-Do implement stochastic gd
+        start = self._index_in_epoch
+        self._index_in_epoch += self.batch_size
+
+        if self._index_in_epoch > self._num_examples:
+            self._epochs_completed += 1
+
+            if self.shuffle:
+                permutation = numpy.arrange(self._num_examples)
+                numpy.random.shuffle(permutation)
+                self.X = self.X[permutation, :]
+                self.Y = self.Y[permutation]
+
+            start = 0
+            self._index_in_epoch = self.batch_size
+
+            assert(self.batch_size <= self._num_examples)
+        end = self._index_in_epoch
+        return self.X[start:end, :], self.Y[start:end]
+
+
+
+            
+        
 
