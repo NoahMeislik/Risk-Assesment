@@ -72,24 +72,35 @@ class Processor():
 
         """
         # To-Do implement batch gd
-        start = self._index_in_epoch
-        self._index_in_epoch += self.batch_size
+        if self.batch_type == 1:
+            start = self._index_in_epoch
+            self._index_in_epoch += self.batch_size
 
-        if self._index_in_epoch > self._num_examples:
-            self._epochs_completed += 1
+            if self._index_in_epoch > self._num_examples:
+                self._epochs_completed += 1
 
-            if self.shuffle:
+                if self.shuffle == 0:
+                    permutation = numpy.arrange(self._num_examples)
+                    numpy.random.shuffle(permutation)
+                    self.X = self.X[permutation, :]
+                    self.Y = self.Y[permutation]
+
+                start = 0
+                self._index_in_epoch = self.batch_size
+
+                assert(self.batch_size <= self._num_examples)
+            end = self._index_in_epoch
+            return self.X[start:end, :], self.Y[start:end]
+        
+        if self.batch_type == 0:
+            
+            if self.shuffle == 0:
                 permutation = numpy.arrange(self._num_examples)
                 numpy.random.shuffle(permutation)
                 self.X = self.X[permutation, :]
                 self.Y = self.Y[permutation]
 
-            start = 0
-            self._index_in_epoch = self.batch_size
-
-            assert(self.batch_size <= self._num_examples)
-        end = self._index_in_epoch
-        return self.X[start:end, :], self.Y[start:end]
+            return self.X, self.Y
 
 
 

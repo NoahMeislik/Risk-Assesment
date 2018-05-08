@@ -35,9 +35,11 @@ class Imputer(PreProcessor):
 
         self.strategy = strategy
 
-        if (self.strategy != 'mean' or self.strategy != 'median' or self.strategy != 'most_frequent'):
+        if (self.strategy != 0 or self.strategy != 1 or self.strategy != 2):
             #raise ValueError('Strategy specified must be of type mean, median or most_frequent!')
             pass
+
+        self.strategy = "mean" if self.strategy == 0 else "median" if self.strategy == 1 else "most_frequent"
 
     def fit(self, abstracts):
         """Fits the abstracts to the imputer model"""
@@ -69,9 +71,11 @@ class Normalizer(PreProcessor):
         self.strategy = strategy
         self.norm_axis = norm_axis
 
-        if (self.strategy != 'l1' or self.strategy != 'l2' or self.strategy != 'max'):
+        if (self.strategy != 0 or self.strategy != 1 or self.strategy != 2):
             #raise ValueError('Strategy specified must be of type l1, l2 or max!')
             pass
+
+        self.strategy = "l1" if self.strategy == 0 else "l2" if self.strategy == 1 else "max"
 
         if (self.norm_axis != 0 or self.norm_axis != 1):
             #raise ValueError('Normalization axis must be of value 0 or 1')

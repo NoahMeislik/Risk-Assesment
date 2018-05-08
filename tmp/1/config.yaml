@@ -1,0 +1,28 @@
+Imputer:
+  strategy: 0 # (0, mean) (1, median) (2, most_frequent)
+
+Normalizer:
+  strategy: 1 # (0, l1) (1, l2) (2, max)
+  norm_axis: 1 # 0 or 1
+
+HyperParameters:
+  layers: [64, 500, 500, 2] # List that defines the layers left to right starting with input
+  dropout_prob: 0.4
+  alpha: .001
+  lmbda: 0
+  num_epochs: 5000
+  init_type: 0 # (0, xavier)
+  optimizer_type: 0 # (0, adamopt)
+
+Processor:
+  dev_percent: 10
+  test_percent: 5
+  batch_type: 0 # (0, batch) (1, mini-batch)
+  batch_size: 64
+  shuffle: 0 # (0, True) (1, False)
+
+Progress:
+  iter_per_cost: 100
+  plot: 0 # (0, True) (1, False)
+  save_path: "/tmp/"
+
