@@ -80,8 +80,8 @@ class Processor():
                 self._epochs_completed += 1
 
                 if self.shuffle == 0:
-                    permutation = numpy.arrange(self._num_examples)
-                    numpy.random.shuffle(permutation)
+                    permutation = np.arange(self._num_examples)
+                    np.random.shuffle(permutation)
                     self.X = self.X[permutation, :]
                     self.Y = self.Y[permutation]
 
@@ -95,8 +95,8 @@ class Processor():
         if self.batch_type == 0:
             
             if self.shuffle == 0:
-                permutation = numpy.arrange(self._num_examples)
-                numpy.random.shuffle(permutation)
+                permutation = np.arange(self._num_examples)
+                np.random.shuffle(permutation)
                 self.X = self.X[permutation, :]
                 self.Y = self.Y[permutation]
 

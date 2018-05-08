@@ -51,8 +51,12 @@ class NeuralNet(Model):
 
         self.processor = Processor(self.X, self.Y, self.dev_percent, self.test_percent, self.batch_type, self.batch_size, self.shuffle)
 
+        self.train_set_x, self.train_set_y, dev_set_x, dev_set_y, test_set_x, test_set_y = self.processor.split_data()
+
+        self.processor = Processor(self.train_set_x, self.train_set_y, self.dev_percent, self.test_percent, self.batch_type, self.batch_size, self.shuffle)
+
         self.X_input = tf.placeholder(tf.float32, shape=(None, self.layers[0]))
-        self.Y_input = tf.placeholder(tf.int32, shape=(None, len(labels)))
+        self.Y_input = tf.placeholder(tf.int32, shape=(None))
 
         self.weights = dict()
         self.biases = dict()
@@ -92,10 +96,24 @@ class NeuralNet(Model):
     
     def train(self):
         """
+        To be run after running init_params. Takes the values created in init_params and trains them with the data.
         """
 
-        # do the batch stuff here or add to a new utils file or add to data processor class
-            
+        with tf.Session() as sess:
+
+            sess.run(self.init)
+
+            cost = 0
+            for epoch in range(self.num_epochs):
+                avg_cost = 0
+                num_batches = int(len(self.Y)/self.batch_size)
+                for _ in range(num_batches):
+                    batch_x, batch_y = self.processor.next_batch()
+
+                    _, cost = sess.run([self.train_op, self.loss_op], feed_dict={self.X_input: batch_x, self.Y_input: batch_y})
+
+                    avg_cost += cost / num_batches
+                print("The average cost of epoch " + str(epoch) + "is: " + avg_cost)
 
 
     
