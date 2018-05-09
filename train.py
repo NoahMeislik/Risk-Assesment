@@ -27,6 +27,6 @@ X = normalizer.transform(abstracts=X)
 
 neural_net = NeuralNet(**Config["HyperParameters"], **Config["Processor"], **Config["Progress"])
 
-neural_net.initialize_params(X, Y, [0, 1])
+neural_net.initialize_params(X, Y, 2)
 neural_net.train()
 

@@ -57,9 +57,7 @@ class NeuralNet(Model):
 
         self.X_input = tf.placeholder(tf.float32, shape=(None, self.layers[0]))
         self.Y_input = tf.placeholder(tf.int32, shape=(None))
-
-        self.weights = dict()
-        self.biases = dict()
+        self.dropout_keep_prob = tf.placeholder(tf.float32)
 
         if self.init_type == 0:
             self.initializer = tf.contrib.layers.xavier_initializer()
@@ -67,7 +65,7 @@ class NeuralNet(Model):
         self.neurons = self.X_input
         for i in range(len(self.layers)):   
             num_input = self.layers[i]
-            num_output = len(labels) if i == len(self.layers) - 1 else self.layers[i + 1] 
+            num_output = 1 if i == len(self.layers) - 1 else self.layers[i + 1] 
             name = "input" if i == 0 else "output" if i == len(self.layers) else str(i + 1)
             w_shape = [num_input, num_output]
             b_shape = [num_output]
@@ -76,13 +74,14 @@ class NeuralNet(Model):
             self.b = tf.Variable(tf.zeros(b_shape, dtype=tf.float32), name = "b_{}".format(name))
 
             self.neurons = tf.add(tf.matmul(self.neurons, self.W), self.b)
+            
             if i < len(self.layers) - 1:
-                self.neurons = tf.nn.dropout(self.neurons, keep_prob=self.dropout_prob)
+                self.neurons = tf.nn.dropout(self.neurons, keep_prob=self.dropout_keep_prob)
                 self.neurons = tf.nn.relu(self.neurons)
 
         self.logits = self.neurons
         # To-Do add regularization here
-        self.loss_op = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = self.logits, labels = self.Y_input))
+        self.loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits = self.logits, labels = self.Y_input))
 
         if self.optimizer_type == 0:
             self.optimizer = tf.train.AdamOptimizer(learning_rate = self.alpha)
@@ -101,19 +100,22 @@ class NeuralNet(Model):
 
         with tf.Session() as sess:
 
-            sess.run(self.init)
+            sess.run([self.init])
 
             cost = 0
+
             for epoch in range(self.num_epochs):
+
                 avg_cost = 0
                 num_batches = int(len(self.Y)/self.batch_size)
                 for _ in range(num_batches):
                     batch_x, batch_y = self.processor.next_batch()
+                    
 
-                    _, cost = sess.run([self.train_op, self.loss_op], feed_dict={self.X_input: batch_x, self.Y_input: batch_y})
-
+                    _, cost = sess.run([self.train_op, self.loss_op], feed_dict={self.X_input: batch_x, self.Y_input: batch_y, self.dropout_keep_prob: self.dropout_prob})
+                    
                     avg_cost += cost / num_batches
-                print("The average cost of epoch " + str(epoch) + "is: " + avg_cost)
+                print("The average cost of epoch " + str(epoch+1) + " is: " + str(avg_cost))
 
 
     
