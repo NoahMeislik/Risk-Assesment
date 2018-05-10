@@ -90,7 +90,7 @@ class Processor():
 
                 assert(self.batch_size <= self._num_examples)
             end = self._index_in_epoch
-            return self.X[start:end, :], self.Y[start:end]
+            return self.X[start:end, :], np.reshape(self.Y[start:end], [len(self.Y[start:end]), 1])
         
         if self.batch_type == 0:
             
@@ -100,7 +100,7 @@ class Processor():
                 self.X = self.X[permutation, :]
                 self.Y = self.Y[permutation]
 
-            return self.X, self.Y
+            return self.X, np.reshape(self.Y, [len(self.Y), 1])
 
 
 

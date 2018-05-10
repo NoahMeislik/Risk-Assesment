@@ -56,7 +56,7 @@ class NeuralNet(Model):
         self.processor = Processor(self.train_set_x, self.train_set_y, self.dev_percent, self.test_percent, self.batch_type, self.batch_size, self.shuffle)
 
         self.X_input = tf.placeholder(tf.float32, shape=(None, self.layers[0]))
-        self.Y_input = tf.placeholder(tf.int32, shape=(None))
+        self.Y_input = tf.placeholder(tf.float32, shape=(None))
         self.dropout_keep_prob = tf.placeholder(tf.float32)
 
         if self.init_type == 0:
@@ -81,13 +81,13 @@ class NeuralNet(Model):
 
         self.logits = self.neurons
         # To-Do add regularization here
-        self.loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits = self.logits, labels = self.Y_input))
+        self.loss_op = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits = self.logits, labels = self.Y_input))
 
         if self.optimizer_type == 0:
-            self.optimizer = tf.train.AdamOptimizer(learning_rate = self.alpha)
+            optimizer = tf.train.AdamOptimizer(learning_rate = self.alpha)
             # To-Do add more optimizers
 
-        self.train_op = self.optimizer.minimize(self.loss_op)
+        self.train_op = optimizer.minimize(self.loss_op)
 
         self.init = tf.global_variables_initializer()
 
@@ -100,9 +100,7 @@ class NeuralNet(Model):
 
         with tf.Session() as sess:
 
-            sess.run([self.init])
-
-            cost = 0
+            sess.run(self.init)
 
             for epoch in range(self.num_epochs):
 
@@ -112,9 +110,10 @@ class NeuralNet(Model):
                     batch_x, batch_y = self.processor.next_batch()
                     
 
-                    _, cost = sess.run([self.train_op, self.loss_op], feed_dict={self.X_input: batch_x, self.Y_input: batch_y, self.dropout_keep_prob: self.dropout_prob})
+                    _, c = sess.run([self.train_op, self.loss_op], feed_dict={self.X_input: batch_x, self.Y_input: batch_y, self.dropout_keep_prob: self.dropout_prob})
                     
-                    avg_cost += cost / num_batches
+                    avg_cost = c / num_batches
+
                 print("The average cost of epoch " + str(epoch+1) + " is: " + str(avg_cost))
 
 
