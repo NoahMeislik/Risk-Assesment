@@ -116,6 +116,7 @@ class NeuralNet(Model):
 
                 print("The average cost of epoch " + str(epoch+1) + " is: " + str(avg_cost))
 
+            save_path = self.saver.save(sess, self.save_path)
 
     
         

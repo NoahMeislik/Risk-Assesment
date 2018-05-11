@@ -6,11 +6,11 @@ Normalizer:
   norm_axis: 1 # 0 or 1
 
 HyperParameters:
-  layers: [64, 500, 500, 1] # List that defines the layers left to right starting with input
+  layers: [64, 100, 50, 1] # List that defines the layers left to right starting with input
   dropout_prob: 0.4
   alpha: .001
   lmbda: 0
-  num_epochs: 50
+  num_epochs: 150
   init_type: 0 # (0, xavier)
   optimizer_type: 0 # (0, adamopt)
 
@@ -24,5 +24,5 @@ Processor:
 Progress:
   iter_per_cost: 100
   plot: 0 # (0, True) (1, False)
-  save_path: "/tmp/"
+  save_path: "./tmp/1/model.ckpt"
 
