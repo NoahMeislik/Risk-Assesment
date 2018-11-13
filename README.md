@@ -48,4 +48,5 @@ This project is licensed under a Closed Software License - see the LICENSE.md fi
 
 ## Acknowledgments
 
-* [None Yet]()
+* [Bamattsson](https://github.com/bamattsson/neural-bankruptcy)
+* The idea was taken from the paper written by Björn Mattsson and Olof Steinert in Economics at University of Gothenburg. My code is a simplified version of their experiment.
